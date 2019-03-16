@@ -13572,7 +13572,7 @@ div#notebook {
 
     <span class="n">CV_summaries_1</span> <span class="o">=</span> <span class="p">{}</span>
     
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;results/RF_training_1.log&#39;</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;results/RF_optimization_1.log&#39;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">star</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
         
@@ -13602,7 +13602,7 @@ div#notebook {
     <span class="c1"># store all cross-validation results into a pickle</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">CV_summaries_1</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;results/CV_summaries_1.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
 
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;results/RF_training_1.log&#39;</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;results/RF_optimization_1.log&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14019,7 +14019,7 @@ filtered dataset size: 80215
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A pickle containing precomputed results have been found.&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Please delete it if you wish to run the analysis again.&#39;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;results/RF_training_2.log&#39;</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;results/RF_optimization_2.log&#39;</span><span class="p">)</span>
     <span class="n">CV_summaries_2</span> <span class="o">=</span> <span class="p">{}</span>
     
     <span class="k">for</span> <span class="n">min_num_res</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">600</span><span class="p">]:</span>
@@ -14096,7 +14096,7 @@ filtered dataset size: 80215
     <span class="c1"># store all cross-validation results into a pickle</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">CV_summaries_2</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;results/CV_summaries_2.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
 
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;results/RF_training_2.log&#39;</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;results/RF_optimization_2.log&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -19941,7 +19941,7 @@ v1        600 GNM chain  :   size =  4031   AUROC = 0.844   OOB = 0.814
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;A pickle containing precomputed results have been found.&#39;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Please delete it if you wish to run the analysis again.&#39;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>   
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;results/RF_training_3.log&#39;</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s1">&#39;results/RF_optimization_3.log&#39;</span><span class="p">)</span>
     <span class="n">CV_summaries_3</span> <span class="o">=</span> <span class="p">{}</span>
     
     <span class="n">featset</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SAV_coords&#39;</span><span class="p">,</span> <span class="s1">&#39;true_label&#39;</span><span class="p">,</span> <span class="s1">&#39;wt_PSIC&#39;</span><span class="p">,</span> <span class="s1">&#39;Delta_PSIC&#39;</span><span class="p">,</span> <span class="s1">&#39;SASA&#39;</span><span class="p">,</span> 
@@ -19975,7 +19975,7 @@ v1        600 GNM chain  :   size =  4031   AUROC = 0.844   OOB = 0.814
     <span class="c1"># store all cross-validation results into a pickle</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">CV_summaries_3</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;results/CV_summaries_3.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
 
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;results/RF_training_3.log&#39;</span><span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;results/RF_optimization_3.log&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>

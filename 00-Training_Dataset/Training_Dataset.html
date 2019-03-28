@@ -13113,29 +13113,39 @@ div#notebook {
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In the following we show how to prepare datasets of human SAVs, with relative features and true labels, to be used for training Rhapsody classifier.</p>
 <h2 id="List-of-human-missense-variants">List of human missense variants<a class="anchor-link" href="#List-of-human-missense-variants">&#182;</a></h2><p>We start by importing lists of human SAVs, with relative pathogenicity assessments, compiled from the following publicly available datasets:</p>
 <ul>
-<li><strong>Integrated Dataset</strong>, obtained by combining:<ul>
 <li><strong>HumVar, ExoVar, predictSNP, VariBench, SwissVar</strong>, 5 datasets of labelled human missense variants already used in our  <a href="https://www.pnas.org/content/115/16/4164">previous publication</a> </li>
 <li><strong>Humsavar</strong>, a database of "human polymorphisms and disease mutations" available on <a href="https://www.uniprot.org/docs/humsavar">Uniprot</a></li>
-<li><strong>ClinVar</strong> a "public archive of reports of the relationships among human variations and phenotypes, with supporting evidence" <a href="ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/">(FTP site)</a></li>
+<li><strong>ClinVar</strong> a "public archive of reports of the relationships among human variations and phenotypes, with supporting evidence" <a href="ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/">(FTP site)</a>. It contains a <em>review score</em>, based on a ranking out of 4 stars, that allows us to test performances on different levels of "confidence in the accuracy of variation calls and assertions of clinical significance".</li>
 </ul>
-</li>
-<li><strong>ClinVar</strong> only </li>
-</ul>
-<p>We also consider ClinVar separately because it contains a <em>review score</em>, based on a ranking out of 4 stars, that allows us to test performances on different levels of "confidence in the accuracy of variation calls and assertions of clinical significance".</p>
-<p>When combining datasets into the Integrated Datasets, SAVs with discordant interpretation are assigned with a <code>true_label = -1</code>.</p>
+<p>When combining these datasets together, SAVs with discordant interpretation are assigned with a <code>true_label = -1</code>.</p>
+<p>The resulting dataset is called <strong>Integrated Dataset</strong>.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tarfile</span>
@@ -13153,14 +13163,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="c1"># import numpy structured arrays</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import numpy structured array containing list of SAVs</span>
 <span class="n">ID</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data/Integrated_Dataset-SAVs.npy&#39;</span><span class="p">)</span>
-<span class="n">CV</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;data/ClinVar_Dataset-SAVs.npy&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13170,11 +13177,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Integrated Dataset size:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ID</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ClinVar size:           &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">CV</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13192,7 +13198,6 @@ div#notebook {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Integrated Dataset size: 94505
-ClinVar size:            20814
 </pre>
 </div>
 </div>
@@ -13203,7 +13208,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ID</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
@@ -13224,8 +13229,8 @@ ClinVar size:            20814
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;SAV_coords&#39;, &#39;true_label&#39;, &#39;datasets&#39;)
-(&#39;A0AV02 181 R C&#39;, 0, &#39;humsavar,swissvar&#39;)
+<pre>(&#39;SAV_coords&#39;, &#39;true_label&#39;, &#39;datasets&#39;, &#39;ClinVar_review_star&#39;)
+(&#39;A0AV02 181 R C&#39;, 0, &#39;humsavar[0],swissvar[0]&#39;, -1)
 </pre>
 </div>
 </div>
@@ -13236,45 +13241,11 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">CV</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">CV</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;SAV_coords&#39;, &#39;true_label&#39;, &#39;review_star&#39;)
-(&#39;A0PJY2 278 H Y&#39;, 1, 0)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># true labels: 0 (neutral), 1 (deleterious), -1 (unknown or discordant interpretations)</span>
 <span class="nb">print</span><span class="p">(</span> <span class="nb">set</span><span class="p">(</span><span class="n">ID</span><span class="p">[</span><span class="s1">&#39;true_label&#39;</span><span class="p">])</span> <span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span> <span class="nb">set</span><span class="p">(</span><span class="n">CV</span><span class="p">[</span><span class="s1">&#39;true_label&#39;</span><span class="p">])</span> <span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13292,7 +13263,6 @@ ClinVar size:            20814
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>{0, 1, -1}
-{0, 1, -1}
 </pre>
 </div>
 </div>
@@ -13303,11 +13273,12 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ClinVar review stars (see https://www.ncbi.nlm.nih.gov/clinvar/docs/review_status for meaning)</span>
-<span class="nb">print</span><span class="p">(</span> <span class="nb">set</span><span class="p">(</span><span class="n">CV</span><span class="p">[</span><span class="s1">&#39;review_star&#39;</span><span class="p">])</span> <span class="p">)</span>
+<span class="c1"># If a SAV was not found in ClinVar and does not have a review star, we will set its value to -1</span>
+<span class="nb">print</span><span class="p">(</span> <span class="nb">set</span><span class="p">(</span><span class="n">ID</span><span class="p">[</span><span class="s1">&#39;ClinVar_review_star&#39;</span><span class="p">])</span> <span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13324,7 +13295,7 @@ ClinVar size:            20814
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{0, 1, 2, 3, 4}
+<pre>{0, 1, 2, 3, 4, -1}
 </pre>
 </div>
 </div>
@@ -13332,6 +13303,90 @@ ClinVar size:            20814
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dataset-composition">Dataset composition<a class="anchor-link" href="#Dataset-composition">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">list_of_datasets</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;clinvar&#39;</span><span class="p">,</span> <span class="s1">&#39;exovar&#39;</span><span class="p">,</span> <span class="s1">&#39;humsavar&#39;</span><span class="p">,</span> <span class="s1">&#39;humvar&#39;</span><span class="p">,</span> <span class="s1">&#39;predictSNP&#39;</span><span class="p">,</span> <span class="s1">&#39;swissvar&#39;</span><span class="p">,</span> <span class="s1">&#39;varibench&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="mi">11</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{d:15}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">list_of_datasets</span><span class="p">]))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d_i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">list_of_datasets</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{d_i:11}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">d_j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">list_of_datasets</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+            <span class="n">shared_SAVs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ID</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">d_i</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">and</span> <span class="n">d_j</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+            <span class="n">d_i_tlabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">d_i</span> <span class="o">+</span> <span class="s1">&#39;\[.\]&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shared_SAVs</span><span class="p">]</span>
+            <span class="n">d_j_tlabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">d_j</span> <span class="o">+</span> <span class="s1">&#39;\[.\]&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shared_SAVs</span><span class="p">]</span>
+            <span class="n">n_discordant</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d_i_tlabels</span><span class="p">)</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d_j_tlabels</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">n_discordant</span><span class="p">:</span>
+                <span class="n">summary</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{len(shared_SAVs)}(</span><span class="si">{n_discordant}</span><span class="s1">)&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">summary</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{len(shared_SAVs)}&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{summary:&lt;15}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">j</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+            <span class="n">SAVs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ID</span><span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">d_i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+            <span class="n">tl_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">([</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">d_j</span> <span class="o">+</span> <span class="s1">&#39;\[.\]&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">SAVs</span><span class="p">])</span>
+            <span class="n">n_ambiguous</span>  <span class="o">=</span> <span class="n">tl_count</span><span class="p">[</span><span class="s1">&#39;?&#39;</span><span class="p">]</span>
+            <span class="n">dataset_bias</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">tl_count</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">tl_count</span><span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tl_count</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">n_ambiguous</span><span class="p">:</span>
+                <span class="n">summary</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{len(SAVs)}(</span><span class="si">{n_ambiguous}</span><span class="s1">)/</span><span class="si">{dataset_bias:3.1f}</span><span class="s1">%&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">summary</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{len(SAVs)}/</span><span class="si">{dataset_bias:3.1f}</span><span class="s1">%&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{summary:&lt;15}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>    
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="k">break</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>           clinvar         exovar          humsavar        humvar          predictSNP      swissvar        varibench      
+clinvar    20814(89)/61.4% 
+exovar     2984(475)       8809/58.5%      
+humsavar   19043(2729)     5098(341)       68386/42.4%     
+humvar     12429(2222)     5438(21)        37003(1005)     40177/52.3%     
+predictSNP 299(21)         8               3222(48)        25(1)           10459(1)/62.6%  
+swissvar   1119(127)       10              7058(60)        56(1)           21(1)           8862(1)/31.7%   
+varibench  665(291)        1               697(66)         14              2               4               10237/42.1%     </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In parentheses: SAVs with discordant clinical interpretations between the two datasets.</p>
+<p>On the diagonal, the <em>dataset bias</em> (percentage of positive cases) is also reported.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13344,7 +13399,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_SAVs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;O00294 496 A T&#39;</span><span class="p">,</span> <span class="s1">&#39;O00238 31 R H&#39;</span><span class="p">]</span>
@@ -13357,12 +13412,10 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">sys</span>
-
-<span class="c1"># Insert here path to Rhapsody folder</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Insert here path to Rhapsody folder</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;/home/lponzoni/Scratch/028-RHAPSODY-git/rhapsody&#39;</span><span class="p">)</span> 
 <span class="kn">import</span> <span class="nn">rhapsody</span> 
 </pre></div>
@@ -13374,7 +13427,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set folder where pickles will be stored</span>
@@ -13408,7 +13461,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Insert here path to folder with EVmutation precomputed mutation effects</span>
@@ -13440,7 +13493,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">):</span>
@@ -13455,7 +13508,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initialize a rhapsody object</span>
@@ -13469,7 +13522,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import SAVs by querying PolyPhen-2 (or by importing precomputed PolyPhen-2 output file, if found)</span>
@@ -13504,7 +13557,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># we would like to compute all features</span>
@@ -13518,7 +13571,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># true labels must be imported prior to exporting training data</span>
@@ -13536,7 +13589,7 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">training_dataset</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">exportTrainingData</span><span class="p">()</span>
@@ -13560,118 +13613,34 @@ ClinVar size:            20814
 <pre>@&gt; Sequence-conservation features have been retrieved from PolyPhen-2&#39;s output.
 @&gt; Mapping SAVs to PDB structures...
 @&gt; [1/2] Mapping SAV &#39;O00238 31 R H&#39; to PDB...
-@&gt; WARNING Unable to recover pickle: File &#39;UniprotMap-O00238.pkl&#39; not found
-@&gt; PDB file is found in the local folder (/home/lponzoni/.../3mdy.pdb.gz).
-@&gt; 858 atoms and 1 coordinate set(s) were parsed in 0.05s.
+@&gt; Pickle &#39;UniprotMap-O00238.pkl&#39; recovered.
 @&gt; [2/2] Mapping SAV &#39;O00294 496 A T&#39; to PDB...
 @&gt; Pickle &#39;UniprotMap-O00238.pkl&#39; saved.
-@&gt; WARNING Unable to recover pickle: File &#39;UniprotMap-O00294.pkl&#39; not found
-@&gt; PDB file is found in the local folder (/home/lponzoni/.../2fim.pdb.gz).
-@&gt; 456 atoms and 1 coordinate set(s) were parsed in 0.02s.
-@&gt; PDB file is found in the local folder (/home/lponzoni/.../3c5n.pdb.gz).
-@&gt; 454 atoms and 1 coordinate set(s) were parsed in 0.04s.
-@&gt; Chain A in 2FIM was aligned in 0.2s.
+@&gt; Pickle &#39;UniprotMap-O00294.pkl&#39; recovered.
 @&gt; Pickle &#39;UniprotMap-O00294.pkl&#39; saved.
-@&gt; SAVs have been mapped to PDB in 3.4s.
+@&gt; SAVs have been mapped to PDB in 0.0s.
 @&gt; Computing structural and dynamical features from PDB structures...
 @&gt; [2/2] Analizing mutation site 2FIM:A 443...
-@&gt; WARNING Unable to recover pickle: File &#39;PDBfeatures-2FIM.pkl&#39; not found
-@&gt; PDB file is found in the local folder (/home/lponzoni/.../2fim.pdb.gz).
-@&gt; 3841 atoms and 1 coordinate set(s) were parsed in 0.07s.
-@&gt; Running DSSP...
-@&gt; DSSP finished in 4.0s.
-@&gt; Running DSSP...
-@&gt; DSSP finished in 0.8s.
-@&gt; Kirchhoff was built in 0.01s.
-@&gt; 223 modes were calculated in 0.08s.
-@&gt; Calculating covariance matrix
-@&gt; Covariance matrix calculated in 0.0s.
-@&gt; Calculating perturbation response
-@&gt; Perturbation response matrix calculated in 0.0s.
-@&gt; Perturbation response scanning completed in 0.0s.
-@&gt; Hessian was built in 0.21s.
-@&gt; 666 modes were calculated in 0.14s.
-@&gt; Calculating covariance matrix
-@&gt; Covariance matrix calculated in 0.1s.
-@&gt; Calculating perturbation response
-@&gt; Perturbation response matrix calculated in 0.0s.
-@&gt; Perturbation response scanning completed in 0.1s.
-@&gt; Calculating stiffness matrix.
-@&gt; Stiffness matrix calculated in 0.29s.
-@&gt; The range of effective force constant is: 4.5812809542425965 to 26.124107763482904.
-@&gt; Kirchhoff was built in 0.02s.
-@&gt; 223 modes were calculated in 0.07s.
-@&gt; Calculating covariance matrix
-@&gt; Covariance matrix calculated in 0.0s.
-@&gt; Calculating perturbation response
-@&gt; Perturbation response matrix calculated in 0.0s.
-@&gt; Perturbation response scanning completed in 0.0s.
-@&gt; Hessian was built in 0.40s.
-@&gt; 666 modes were calculated in 0.13s.
-@&gt; Calculating covariance matrix
-@&gt; Covariance matrix calculated in 0.1s.
-@&gt; Calculating perturbation response
-@&gt; Perturbation response matrix calculated in 0.0s.
-@&gt; Perturbation response scanning completed in 0.1s.
-@&gt; Calculating stiffness matrix.
-@&gt; Stiffness matrix calculated in 0.28s.
-@&gt; The range of effective force constant is: 4.6986162875699415 to 26.314587947383718.
-@&gt; Kirchhoff was built in 0.03s.
-@&gt; 455 modes were calculated in 0.16s.
-@&gt; Calculating covariance matrix
-@&gt; Covariance matrix calculated in 0.0s.
-@&gt; Calculating perturbation response
-@&gt; Perturbation response matrix calculated in 0.0s.
-@&gt; Perturbation response scanning completed in 0.0s.
-@&gt; Hessian was built in 0.39s.
-@&gt; 1362 modes were calculated in 0.76s.
-@&gt; Calculating covariance matrix
-@&gt; Covariance matrix calculated in 0.1s.
-@&gt; Calculating perturbation response
-@&gt; Perturbation response matrix calculated in 0.0s.
-@&gt; Perturbation response scanning completed in 0.1s.
-@&gt; Calculating stiffness matrix.
-@&gt; Stiffness matrix calculated in 0.62s.
-@&gt; The range of effective force constant is: 4.521514034162192 to 26.045579975322646.
+@&gt; Pickle &#39;PDBfeatures-2FIM.pkl&#39; recovered.
 @&gt; Pickle &#39;PDBfeatures-2FIM.pkl&#39; saved.
-@&gt; PDB features have been computed in 9.4s.
+@&gt; PDB features have been computed in 0.0s.
 @&gt; Computing sequence properties from Pfam domains...
 @&gt; [1/2] Mapping SAV &#39;O00238 31 R H&#39; to Pfam...
 @&gt; Pickle &#39;UniprotMap-O00238.pkl&#39; recovered.
-@&gt; Retrieving Pfam search results: https://pfam.xfam.org/protein/O00238?output=xml
-@&gt; Pfam search completed in 0.41s.
-@&gt; Query &#39;O00238&#39; matched 3 Pfam families.
-@&gt; Processing PF01064...
-@&gt; Pfam MSA for PF01064 is written as PF01064_full.sth.
-@&gt; 1768 sequence(s) with 359 residues were parsed in 0.01s.
-@&gt; Number of columns in MSA reduced to 77.
-@&gt; Row occupancy refinement reduced number of rows from 1768 to 1728 in 0.00s.
-@&gt; Sequence identity refinement reduced number of rows from 1728 to 668 in 0.18s.
-@&gt; Mutual information matrix was calculated in 0.03s.
 @&gt; [2/2] Mapping SAV &#39;O00294 496 A T&#39; to Pfam...
 @&gt; Pickle &#39;UniprotMap-O00238.pkl&#39; saved.
 @&gt; Pickle &#39;UniprotMap-O00294.pkl&#39; recovered.
-@&gt; Retrieving Pfam search results: https://pfam.xfam.org/protein/O00294?output=xml
-@&gt; Pfam search completed in 0.39s.
-@&gt; Query &#39;O00294&#39; matched 1 Pfam families.
-@&gt; Processing PF01167...
-@&gt; Pfam MSA for PF01167 is written as PF01167_full.sth.
-@&gt; 2789 sequence(s) with 1659 residues were parsed in 0.03s.
-@&gt; Number of columns in MSA reduced to 241.
-@&gt; Row occupancy refinement reduced number of rows from 2789 to 2108 in 0.00s.
-@&gt; Sequence identity refinement reduced number of rows from 2108 to 1102 in 1.12s.
-@&gt; Mutual information matrix was calculated in 0.28s.
 @&gt; Pickle &#39;UniprotMap-O00294.pkl&#39; saved.
-@&gt; SAVs have been mapped on Pfam domains and sequence properties have been computed in 6.8s.
+@&gt; SAVs have been mapped on Pfam domains and sequence properties have been computed in 0.1s.
 @&gt; Recovering EVmutation data...
-@&gt; EVmutation scores recovered in 0.1s.
+@&gt; EVmutation scores recovered in 0.2s.
 </pre>
 </div>
 </div>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[19]:</div>
 
 
 
@@ -13690,10 +13659,23 @@ ClinVar size:            20814
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;precomputed_features&#39;</span><span class="p">,</span> <span class="n">training_dataset</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>

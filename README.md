@@ -1,2 +1,5 @@
-# rhapsody-tutorials
-collection of Jupyter Notebooks with tutorials for Rhapsody
+# Rhapsody tutorials
+
+Collection of Jupyter notebooks containing:
+* tutorials for basic and advanced usage of Rhapsody,
+* data and instructions to reproduce results from the main publication.

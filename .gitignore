@@ -1,5 +1,5 @@
 # folder containing local data
-local/
+local*/
 # temporary pickles
 *pkl
 

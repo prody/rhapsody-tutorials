@@ -1,0 +1,34 @@
+SAV,orig_SAV,exp_fitness,group,pred_class
+140 V M,,-1,0,pos_control
+80 K M,,-1,0,pos_control
+342 H S,,1,1,GOF
+65 F L,,0,1,GOF
+86 T A,,0,1,GOF
+154 A P,,2,1,GOF
+94 F L,,0,1,GOF
+358 C Q,,2,2,del_novel
+355 C Q,,2,2,del_novel
+361 N C,,1,2,del_novel
+253 V D,,1,2,del_novel
+361 N W,,0,2,del_novel
+85 I V,,0,3,neu_consensus
+101 V A,101 A V,0,3,neu_consensus
+247 T V,247 I V,0,3,neu_consensus
+82 T L,,0,3,neu_consensus
+105 V I,105 I V,0,3,neu_consensus
+116 D A,116 A D,0,4,neu_novel
+116 D S,116 A S,0,4,neu_novel
+332 T S,,0,4,neu_novel
+38 Q R,,0,4,neu_novel
+359 L F,,0,4,neu_novel
+113 Y H,113 H Y,-1,4,neu_novel
+224 S C,,0,5,discordant
+323 Y H,,0,5,discordant
+196 K G,,1,5,discordant
+193 T M,,0,5,discordant
+46 E N,46 D N,0,5,discordant
+265 P R,,2,6,del_consensus
+265 P Y,,1,6,del_consensus
+121 C H,,1,6,del_consensus
+291 F Q,,2,6,del_consensus
+318 E I,,2,6,del_consensus
